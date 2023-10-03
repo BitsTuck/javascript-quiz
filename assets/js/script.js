@@ -1,8 +1,11 @@
 var timeEl = document.querySelector("#timer");
 var questionEl = document.querySelector(".ask-ques")
+var answerEl = document.querySelector('.answer')
 var secondsLeft = 120;
 
-var askQuestion = 0
+var askQuestion = 0;
+var listAnswers = [];
+var answerList = "";
 
 var questionList = [
         {
@@ -10,30 +13,36 @@ var questionList = [
                 correctAns: '[]',
                 answers: ['{}', '&&', '[]', '()']
 
-        }, 
+        },
         {
                 question: 'What special characters denote a string in JavaScript?',
                 correctAns: '""',
                 answers: ['{}', '&&', '""', '()']
-        }, 
+        },
         {
-                question: 'What special characters denote that two values are strictly equal in JavaScript?',
-                correctAns: '===',
-                answers: ['{}', '&&', '===', '()']
+                question: 'Which of the following is not a type of loop in JavaScript?',
+                correctAns: 'integer',
+                answers: ['for', 'while', 'do... while', 'integer']
+        },
+        {
+                question: 'What property would you use to add to the beginning of a JavaScript array?',
+                correctAns: '.shift()',
+                answers: ['.length', '.pop()', '.unshift()', 'shift()']
+        },
+        {
+                question: 'What property would you use to remove the last item in a JavaScript array?',
+                correctAns: '.pop()',
+                answers: ['.length', '.pop()', '.unshift()', 'shift()']
         }
 ]
 
 // console.log(questionList[askQuestion].question)
 // askQuestion++
-// console.log(questionList[askQuestion].question)
-
-// , 'Which of the following is not a type of loop in JavaScript?', 'What property would you use to remove the last element in an array in JavaScript?']
-
-// var answerCorrect = [' " "', ' []', ' ===', ' integer', ' .pop()']
+// console.log(questionList[askQuestion].question
 
 
 
-//init timer on question page load
+// init timer on question page load
 function setTime() {
         var timerInterval = setInterval(function () {
                 secondsLeft--;
@@ -41,20 +50,38 @@ function setTime() {
                 if (secondsLeft === 0) {
                         var noTime = window.confirm("Your time has run out! Click OK to view High Scores, click Cancel to start again.")
                         clearInterval(timerInterval)
-                        // else if (noTime) {
-                        // go to high scores
-                        // } else {
-                        // return
+                        //                         // else if (noTime) {
+                        //                         // go to high scores
+                        //                         // } else {
+                        //                         // return
                 }
         }, 1000);
 }
 setTime()
 
 function takeQuiz() {
-        questionEl.textContent=questionList[askQuestion].question
-}
+        questionEl.textContent = questionList[askQuestion].question
 
+        for (let i = 0; i < questionList[askQuestion].answers.length; i++) {
+                let ansButton = document.createElement('button')
+                ansButton.setAttribute("type", "button");
+                ansButton.textContent = questionList[askQuestion].answers[i]
+
+                answerEl.append(ansButton)
+
+        }
+
+        if (questionList[askQuestion].answers[i] === questionList[askQuestion].correctAns[i]) {
+                questionEl++;
+        } else {
+                secondsLeft - 10;
+        }
+}
 takeQuiz()
+
+
+
+
 
 
 
