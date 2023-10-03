@@ -2,6 +2,7 @@ var timeEl = document.querySelector("#timer");
 var questionEl = document.querySelector(".ask-ques")
 var answerEl = document.querySelector('.answer')
 var secondsLeft = 120;
+var points = 0;
 
 var askQuestion = 0;
 var listAnswers = [];
@@ -43,42 +44,88 @@ var questionList = [
 
 
 // init timer on question page load
-function setTime() {
+// function setTime() {
+//         var timerInterval = setInterval(function () {
+//                 secondsLeft--;
+//                 timeEl.textContent = secondsLeft + ' seconds remaining';
+//                 if (secondsLeft === 0) {
+//                         var noTime = window.confirm("Your time has run out! Click OK to view High Scores, click Cancel to start again.")
+//                         clearInterval(timerInterval)
+//                         //                         // else if (noTime) {
+//                         //                         // go to high scores
+//                         //                         // } else {
+//                         //                         // return
+//                 }
+//         }, 1000);
+// }
+// setTime()
+function startGame() {
+        secondsLeft = 120;
+        document.getElementById("timer").innerHTML = secondsLeft
+
         var timerInterval = setInterval(function () {
                 secondsLeft--;
-                timeEl.textContent = secondsLeft + ' seconds remaining';
+                document.getElementById("timer").innerHTML = secondsLeft
                 if (secondsLeft === 0) {
                         var noTime = window.confirm("Your time has run out! Click OK to view High Scores, click Cancel to start again.")
                         clearInterval(timerInterval)
-                        //                         // else if (noTime) {
-                        //                         // go to high scores
-                        //                         // } else {
-                        //                         // return
                 }
-        }, 1000);
-}
-setTime()
+        }, 1000)
 
-function takeQuiz() {
-        questionEl.textContent = questionList[askQuestion].question
+        nextQuestion()
+} 
 
-        for (let i = 0; i < questionList[askQuestion].answers.length; i++) {
-                let ansButton = document.createElement('button')
-                ansButton.setAttribute("type", "button");
-                ansButton.textContent = questionList[askQuestion].answers[i]
 
-                answerEl.append(ansButton)
+        // function takeQuiz() {
+        //         questionEl.textContent = questionList[askQuestion].question
 
-        }
+        //         for (let i = 0; i < questionList[askQuestion].answers.length; i++) {
+        //                 let ansButton = document.createElement('button')
+        //                  ansButton.setAttribute("type", "button");
+        //                 ansButton.textContent = questionList[askQuestion].answers[i]
 
-        if (questionList[askQuestion].answers[i] === questionList[askQuestion].correctAns[i]) {
-                questionEl++;
-        } else {
-                secondsLeft - 10;
-        }
-}
-takeQuiz()
+        //                 answerEl.append(ansButton)
 
+        //                 }
+        //         }
+        //         takeQuiz()
+
+                // function nextQuestion() {
+                //         if (questionList[askQuestion].answers[i] === questionList[askQuestion].correctAns[i]) {
+                //                 askQuestion++;
+                //         } else {
+                //                 secondsLeft - 10;
+                //         }
+
+                // }
+                function correct() {
+                        points += 1;
+                        nextQuestion()
+
+                }
+
+                function wrong() {
+                        secondsLeft -= 10;
+                        nextQuestion()
+                }
+
+                function nextQuestion() {
+                        askQuestion++
+                        if (askQuestion > questionList.length) {
+                                return
+                        };
+                        var quizContent = questionList[askQuestion].title
+
+                        for (var i = 0; questionList[askQuestion].answers.length; i++) {
+                                var correctAnswer = (questionList[askQuestion].answers[i] == questionList[askQuestion].correctAns) ? "correct()" : "wrong()";
+
+                                var html = `<button onclick = "${correctAnswer}"> ${questionList[askQuestion].answers[i]}</button>`
+
+                                quizContent += html
+                        }
+                        document.getElementById("quiz").innerHTML = quizContent;
+                }
+                nextQuestion()
 
 
 
