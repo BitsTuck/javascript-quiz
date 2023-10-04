@@ -5,7 +5,7 @@ Deployed 4 October 2023
 
 <img width="1469" alt="Screenshot 2023-10-04 at 16 27 22" src="https://github.com/BitsTuck/password-generator/assets/144712161/52ddb841-3a8d-48a9-bb78-d84d394b1023">
 
-[https://bitstuck.github.io/password-generator/](https://bitstuck.github.io/javascript-quiz/)
+https://bitstuck.github.io/javascript-quiz/
 
 ## Description
 
