@@ -1,10 +1,10 @@
 var timeEl = document.querySelector("#timer");
 var questionEl = document.querySelector(".ask-ques")
 var answerEl = document.querySelector('.answer')
-var secondsLeft = 120;
+var secondsLeft = 0;
 var points = 0;
 
-var askQuestion = 0;
+var askQuestion = -1;
 var listAnswers = [];
 var answerList = "";
 
@@ -37,37 +37,16 @@ var questionList = [
         }
 ]
 
-// console.log(questionList[askQuestion].question)
-// askQuestion++
-// console.log(questionList[askQuestion].question
 
-
-
-// init timer on question page load
-// function setTime() {
-//         var timerInterval = setInterval(function () {
-//                 secondsLeft--;
-//                 timeEl.textContent = secondsLeft + ' seconds remaining';
-//                 if (secondsLeft === 0) {
-//                         var noTime = window.confirm("Your time has run out! Click OK to view High Scores, click Cancel to start again.")
-//                         clearInterval(timerInterval)
-//                         //                         // else if (noTime) {
-//                         //                         // go to high scores
-//                         //                         // } else {
-//                         //                         // return
-//                 }
-//         }, 1000);
-// }
-// setTime()
 function startGame() {
-        secondsLeft = 120;
+        secondsLeft = 60;
         document.getElementById("timer").innerHTML = secondsLeft
 
         var timerInterval = setInterval(function () {
                 secondsLeft--;
                 document.getElementById("timer").innerHTML = secondsLeft
                 if (secondsLeft === 0) {
-                        var noTime = window.confirm("Your time has run out! Click OK to view High Scores, click Cancel to start again.")
+                        window.alert("Your time has run out!")
                         clearInterval(timerInterval)
                 }
         }, 1000)
@@ -75,75 +54,44 @@ function startGame() {
         nextQuestion()
 } 
 
+function correct() {
+        points += 1;
+        nextQuestion()
 
-        // function takeQuiz() {
-        //         questionEl.textContent = questionList[askQuestion].question
+}
 
-        //         for (let i = 0; i < questionList[askQuestion].answers.length; i++) {
-        //                 let ansButton = document.createElement('button')
-        //                  ansButton.setAttribute("type", "button");
-        //                 ansButton.textContent = questionList[askQuestion].answers[i]
+function wrong() {
+        secondsLeft -= 10;
+        nextQuestion()
+}
 
-        //                 answerEl.append(ansButton)
+function nextQuestion() {
+        askQuestion++
+        if (askQuestion >= questionList.length) {
+                return
+        };
+        var quizContent = questionList[askQuestion].question
+        answerEl.innerHTML = ""
 
-        //                 }
-        //         }
-        //         takeQuiz()
+        for (var i = 0; i < questionList[askQuestion].answers.length; i++) {
+                var correctAnswer = (questionList[askQuestion].answers[i] == questionList[askQuestion].correctAns) ? "correct()" : "wrong()";
 
-                // function nextQuestion() {
-                //         if (questionList[askQuestion].answers[i] === questionList[askQuestion].correctAns[i]) {
-                //                 askQuestion++;
-                //         } else {
-                //                 secondsLeft - 10;
-                //         }
+                var button = document.createElement('button');
+                button.textContent = questionList[askQuestion].answers[i];
+                button.setAttribute("onclick", correctAnswer);
+                button.style.backgroundColor="white";
+                button.style.width="150px";
+                button.style.height= "50px";
+                button.style.color="midnightblue";
+                button.style.margin="8px;"
+        
+                document.querySelector(".answer").appendChild(button);
 
-                // }
-                function correct() {
-                        points += 1;
-                        nextQuestion()
+        }
+        document.querySelector(".ask-ques").innerHTML = quizContent;
 
-                }
-
-                function wrong() {
-                        secondsLeft -= 10;
-                        nextQuestion()
-                }
-
-                function nextQuestion() {
-                        askQuestion++
-                        if (askQuestion > questionList.length) {
-                                return
-                        };
-                        var quizContent = questionList[askQuestion].title
-
-                        for (var i = 0; questionList[askQuestion].answers.length; i++) {
-                                var correctAnswer = (questionList[askQuestion].answers[i] == questionList[askQuestion].correctAns) ? "correct()" : "wrong()";
-
-                                var html = `<button onclick = "${correctAnswer}"> ${questionList[askQuestion].answers[i]}</button>`
-
-                                quizContent += html
-                        }
-                        document.getElementById("quiz").innerHTML = quizContent;
-                }
-                nextQuestion()
-
-
-
-
-
-
-//hide questions 2-5 when question page loads
-// response.addEventListener("click", function(event) {
-//     var element=event.target;;
-
-//     if(element.matches (".question")) {
-//     var state = element.getAttribute ("data-answer");
-//     }
-
-// })
-//reveal questions one at-a-time 
-// window prompt on last question answered OR timer runs out
-// prompt response takes you to high-score page
-//high score page displays scores
-
-// var answersWrong = [' ()', ' &&', ' ||',' {}',' * *', ' !==', ' +==', ' -==', ' ==!', ' for', ' while', ' do... while', ' .slice()', ' nested', ' .unshift()', ' .push()', ' .length']
+        if (quizContent > questionList.length) {
+                document.querySelector(".thanks").append
+        }
+}
+startGame()
